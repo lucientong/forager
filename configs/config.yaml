@@ -1,0 +1,72 @@
+# ============================================================
+# Forager Configuration
+# ============================================================
+# All secrets can (and should) be set via environment variables.
+# See README.md for the full env var reference.
+
+# Server settings
+server:
+  port: 8080
+  webhook_secret: ""  # Set via FORAGER_WEBHOOK_SECRET
+  web_port: 0         # Waggle visualization panel (0 = disabled, e.g. 8081)
+  read_timeout: 15s
+  write_timeout: 30s
+  shutdown_timeout: 10s
+
+# GitHub settings
+github:
+  token: ""    # Set via FORAGER_GITHUB_TOKEN
+  api_url: "https://api.github.com"
+
+# ============================================================
+# LLM Providers
+# ============================================================
+# Define one or more providers. Only configure the ones you use.
+# API keys can be set via FORAGER_ANTHROPIC_API_KEY, FORAGER_OPENAI_API_KEY.
+providers:
+  anthropic:
+    api_key: ""                          # Set via FORAGER_ANTHROPIC_API_KEY
+    model: "claude-3-5-sonnet-20241022"
+    max_tokens: 8096
+  # openai:
+  #   api_key: ""                        # Set via FORAGER_OPENAI_API_KEY
+  #   model: "gpt-4o"
+  # ollama:
+  #   model: "llama3.2"
+  #   base_url: "http://localhost:11434"  # Set via FORAGER_OLLAMA_URL
+
+# ============================================================
+# Agent -> Provider Routing
+# ============================================================
+# Each review agent can use a different provider. If not specified,
+# the agent uses the "default" provider.
+#
+# Example: security uses Claude (more cautious), style uses GPT-4o (faster/cheaper):
+#   agents:
+#     default: "anthropic"
+#     security: "anthropic"
+#     style: "openai"
+#     logic: "anthropic"
+#     performance: "openai"
+#     summary: "openai"
+#     fallback_order: ["anthropic", "openai", "ollama"]
+agents:
+  default: "anthropic"
+  # security: "anthropic"
+  # style: "openai"
+  # logic: "anthropic"
+  # performance: "openai"
+  # summary: "openai"
+  fallback_order: ["anthropic"]
+
+# Pipeline settings
+pipeline:
+  max_retries: 2
+  timeout_seconds: 120
+  max_files_per_pr: 50
+  memory_size: 20    # per-PR review history window for SummaryAgent (0 = disabled)
+
+# Logging settings
+logging:
+  level: "info"   # debug, info, warn, error
+  format: "text"  # text or json
