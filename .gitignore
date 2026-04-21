@@ -40,3 +40,4 @@ Thumbs.db
 # Application specific — only the compiled binary at project root
 /forager
 *.log
+WAGGLE_FEEDBACK.md
